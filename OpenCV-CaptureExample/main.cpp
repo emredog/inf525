@@ -1,4 +1,5 @@
 #include <QCoreApplication>
+#include <QTime>
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 //#include <iostream>
@@ -14,24 +15,25 @@ int main(/*int argc, char *argv[]*/)
     if(!cap.isOpened())  // check if we succeeded
         return -1;
 
-    Mat edges;
-    Mat transformed;
+    int counter = 0;
     Mat frame;
-    Mat frame2;
-   // namedWindow("edges",1);
+
     namedWindow("original",1);
 
-    Mat transformMat = getRotationMatrix2D(Point2f(240, 320), 180.0, 1.0);
-    for(;;)
+    for(;;counter++)
     {
 
         cap >> frame; // get a new frame from camera
 
-       // cvtColor(frame, frame2, CV_);
-        //GaussianBlur(edges, edges, Size(7,7), 1.5, 1.5);
-        //Canny(edges, edges, 0, 30, 3);
-        transform(frame, transformed, transformMat);
-        imshow("original", transformed);
+        imshow("original", frame); //display the image
+
+        //save every 50th image to disk
+        if (counter % 50 == 0)
+        {
+            std::string fileName = QTime::currentTime().toString("hh-mm-ss-zzz").append(".png").toStdString();
+            imwrite(fileName, frame);
+        }
+
         if(waitKey(30) >= 0) break;
     }
 
