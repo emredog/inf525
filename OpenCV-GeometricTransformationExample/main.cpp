@@ -23,7 +23,7 @@ int main(/*int argc, char *argv[]*/)
     Scalar color(255, 255, 255);
     int thickness = 2;
 
-    //scale image
+    //scale image---------------------------------------------------------------------------
     double scaleFactor = 1.4;
     Mat scaled;
     //nearest neighbor
@@ -44,10 +44,8 @@ int main(/*int argc, char *argv[]*/)
     imshow("transformed", scaled);
     cv::waitKey();
 
-//    //translate image
-    //TODO
 
-    //scale & rotate image
+    //scale & rotate image---------------------------------------------------------------------------
     Mat rotated = Mat::zeros(image.rows, image.cols, image.type());
     Point center(image.cols/2, image.rows/2);
     double angle = 30.0;
@@ -75,11 +73,50 @@ int main(/*int argc, char *argv[]*/)
     cv::waitKey();
 
 
-    //skew image
+    //skew image---------------------------------------------------------------------------
+    Mat skewed;
+    // exemple of 2 triangles (3 vertex and 1 gravity center points per triangle)
+    int aX = 15, aY = 0; // CHANGE THESE VALUES
 
+    Point2f srct[4];
+    srct[0] = Point2f(0, 0);
+    srct[1] = Point2f(300, 600);
+    srct[2] = Point2f(50, 700);
+    srct[3] = Point2f(110, 430);
 
+    Point2f dstt[4];
+    dstt[0] = cv::Point2f(0, 0); // NEW POINT TO PLACE srct[0]
+    dstt[1] = cv::Point2f(300 + aX, 600 + aY);
+    dstt[2] = cv::Point2f(50 + aX < 0 ? 0 : 50 + aX, 700 + aY);
 
+    dstt[0].x = dstt[0].x < 0 ? 0 : (dstt[0].x >= image.cols + aX ? image.cols + aX - 1 : dstt[0].x);
+    dstt[1].x = dstt[1].x < 0 ? 0 : (dstt[1].x >= image.cols + aX ? image.cols + aX - 1 : dstt[1].x);
+    dstt[2].x = dstt[2].x < 0 ? 0 : (dstt[2].x >= image.cols + aX ? image.cols + aX - 1 : dstt[2].x);
 
+    dstt[0].y = dstt[0].y < 0 ? 0 : (dstt[0].y >= image.rows + aY ? image.rows + aY - 1 : dstt[0].y);
+    dstt[1].y = dstt[1].y < 0 ? 0 : (dstt[1].y >= image.rows + aY ? image.rows + aY - 1 : dstt[1].y);
+    dstt[2].y = dstt[2].y < 0 ? 0 : (dstt[2].y >= image.rows + aY ? image.rows + aY - 1 : dstt[2].y);
+
+    dstt[3] = Point2f((dstt[0].x + dstt[1].x + dstt[2].x) / 3, (dstt[0].y + dstt[1].y + dstt[2].y) / 3); // new gravity center
+
+    Mat transformMat = getPerspectiveTransform(srct, dstt);
+    std::cout << std::endl << std::endl << transformMat << std::endl << std::endl;
+
+    //nearest neighbor
+    warpPerspective(image, skewed, transformMat, cv::Size(image.cols + aX, image.rows + aY), INTER_NEAREST);
+    putText(skewed, "nearest-neighbor interpolation", Point(10, 400), fontFace, fontScale, color, thickness);
+    imshow("transformed", skewed);
+    cv::waitKey();
+    //bilinear
+    warpPerspective(image, skewed, transformMat, cv::Size(image.cols + aX, image.rows + aY), INTER_LINEAR);
+    putText(skewed, "bilinear interpolation", Point(10, 400), fontFace, fontScale, color, thickness);
+    imshow("transformed", skewed);
+    cv::waitKey();
+    //bicubic
+    warpPerspective(image, skewed, transformMat, cv::Size(image.cols + aX, image.rows + aY), INTER_CUBIC);
+    putText(skewed, "bicubic interpolation", Point(10, 400), fontFace, fontScale, color, thickness);
+    imshow("transformed", skewed);
+    cv::waitKey();
 
 
 
