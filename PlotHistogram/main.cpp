@@ -47,7 +47,7 @@ void plotHistogramGrayscale(Mat image)
         float intensity = histogram[h];
         intensity = (intensity/max)*256;
 
-        line(histImg, Point(h, intensity), Point(h, 0), 255);
+        line(histImg, Point(h, intensity), Point(h, 500), 255);
     }
 
     namedWindow( "Source", 1 );
