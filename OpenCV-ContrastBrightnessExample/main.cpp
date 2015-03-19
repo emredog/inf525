@@ -7,10 +7,10 @@ using namespace cv;
 int main(/*int argc, char *argv[]*/)
 {
     double alpha = 1.0;
-    double beta = 100;
+    double beta = 235;
 
     //read image from disk
-    Mat origImg = imread("/home/emredog/Pictures/Lenna.png");
+    Mat origImg = imread("/home/emredog/Pictures/lenna.jpg");
 
     //create a zero-matrix with original image size & type
     Mat modifiedImg = Mat::zeros( origImg.size(), origImg.type() );
@@ -22,7 +22,9 @@ int main(/*int argc, char *argv[]*/)
         {
             for( int c = 0; c < 3; c++ ) //traverse RGB channels
             {
-                modifiedImg.at<Vec3b>(y,x)[c] = saturate_cast<uchar>( alpha*( origImg.at<Vec3b>(y,x)[c] ) + beta );
+                // What difference saturate_cast make?
+//                modifiedImg.at<Vec3b>(y,x)[c] = saturate_cast<uchar>( alpha*( origImg.at<Vec3b>(y,x)[c] ) + beta );
+                modifiedImg.at<Vec3b>(y,x)[c] = alpha*( origImg.at<Vec3b>(y,x)[c] ) + beta;
             }
         }
     }
@@ -35,7 +37,7 @@ int main(/*int argc, char *argv[]*/)
     //create three windows to show images
     namedWindow("org", 1);
     namedWindow("converted", 1);
-    namedWindow("modified", 1);
+    namedWindow("manually_modified", 1);
 
     //verify output images are equal
     Mat resultMask = (convertedImg == modifiedImg);
@@ -44,11 +46,12 @@ int main(/*int argc, char *argv[]*/)
             if (resultMask.at<uchar>(y, x) != 255)
             {
                 std::cout << "IMAGES NOT EQUAL" << std::endl;
+                break;
             }
 
     //show images
     imshow("org", origImg);
-    imshow("modified", modifiedImg);
+    imshow("manually_modified", modifiedImg);
     imshow("converted", convertedImg);
     cv::waitKey();
     return 0;

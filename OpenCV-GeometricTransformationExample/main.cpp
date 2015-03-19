@@ -9,7 +9,7 @@ int main(/*int argc, char *argv[]*/)
     //QCoreApplication a(argc, argv);
 
     //load image in grayscale
-    Mat image = imread("/home/emredog/Pictures/Lenna.png", CV_LOAD_IMAGE_GRAYSCALE);
+    Mat image = imread("/home/emredog/Pictures/lenna.jpg", CV_LOAD_IMAGE_GRAYSCALE);
     //create window to show image
     namedWindow("original", 1);
     imshow("original", image);
