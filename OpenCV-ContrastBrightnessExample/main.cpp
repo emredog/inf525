@@ -6,8 +6,8 @@ using namespace cv;
 
 int main(/*int argc, char *argv[]*/)
 {
-    double alpha = 1.0;
-    double beta = 235;
+    double alpha = 1.2;
+    double beta = 100;
 
     //read image from disk
     Mat origImg = imread("/home/emredog/Pictures/lenna.jpg");
@@ -23,8 +23,8 @@ int main(/*int argc, char *argv[]*/)
             for( int c = 0; c < 3; c++ ) //traverse RGB channels
             {
                 // What difference saturate_cast make?
-//                modifiedImg.at<Vec3b>(y,x)[c] = saturate_cast<uchar>( alpha*( origImg.at<Vec3b>(y,x)[c] ) + beta );
-                modifiedImg.at<Vec3b>(y,x)[c] = alpha*( origImg.at<Vec3b>(y,x)[c] ) + beta;
+                modifiedImg.at<Vec3b>(y,x)[c] = saturate_cast<uchar>( alpha*( origImg.at<Vec3b>(y,x)[c] ) + beta );
+//                modifiedImg.at<Vec3b>(y,x)[c] = alpha*( origImg.at<Vec3b>(y,x)[c] ) + beta;
             }
         }
     }

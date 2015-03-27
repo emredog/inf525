@@ -3,7 +3,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-//#include <iostream>
+#include <iostream>
 
 using namespace cv;
 
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     int c;
 
     /// Load an image
-    src = imread( "/home/emredog/git/inf525/ConvolutionExample/Lenna-bw.png", CV_LOAD_IMAGE_GRAYSCALE /*argv[1] */);
+    src = imread( "/home/emredog/Pictures/lenna.jpg", CV_LOAD_IMAGE_GRAYSCALE /*argv[1] */);
 
     if( !src.data )
     { return -1; }
@@ -46,81 +46,96 @@ int main(int argc, char *argv[])
     //Show original image
     Mat org = src.clone();
     putText(org, "Original Image", Point(15, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255));
+    std::cout << "Original Image" << std::endl;
     imshow( window_name, org );
+
     waitKey(0);
 
     //Smoothing kernels
     kernel = Mat::ones(3, 3, CV_8UC1);
     dst = convolveWithKernel(src, kernel, true);
     putText(dst, "3x3 Normalized Box Filter (Smoothing)", Point(15, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255));
+    std::cout << "3x3 Normalized Box Filter (Smoothing)" << std::endl;
     imshow( window_name, dst );
     waitKey(0);
 
     kernel = Mat::ones(5, 5, CV_8UC1);
     dst = convolveWithKernel(src, kernel, true);
     putText(dst, "5x5 Normalized Box Filter (Smoothing)", Point(15, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255));
+    std::cout << "5x5 Normalized Box Filter (Smoothing)" << std::endl;
     imshow( window_name, dst );
     waitKey(0);
 
     kernel = Mat::ones(7, 7, CV_8UC1);
     dst = convolveWithKernel(src, kernel, true);
     putText(dst, "7x7 Normalized Box Filter (Smoothing)", Point(15, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255));
+    std::cout << "7x7 Normalized Box Filter (Smoothing)" << std::endl;
     imshow( window_name, dst );
     waitKey(0);
 
     kernel = Mat::ones(9, 9, CV_8UC1);
     dst = convolveWithKernel(src, kernel, true);
     putText(dst, "9x9 Normalized Box Filter (Smoothing)", Point(15, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255));
+    std::cout << "9x9 Normalized Box Filter (Smoothing)" << std::endl;
     imshow( window_name, dst );
     waitKey(0);
 
     kernel = Mat::ones(11, 11, CV_8UC1);
     dst = convolveWithKernel(src, kernel, true);
     putText(dst, "11x11 Normalized Box Filter (Smoothing)", Point(15, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255));
+    std::cout << "11x11 Normalized Box Filter (Smoothing)" << std::endl;
     imshow( window_name, dst );
     waitKey(0);
 
     //Show original image again
     imshow( window_name, org );
+    std::cout << "Original Image" << std::endl;
     waitKey(0);
 
     //Sharpen
     kernel = (Mat_<uchar>(3,3) << 0, -1, 0, -1, 5, -1, 0, -1, 0);
     dst = convolveWithKernel(src, kernel, false);
     putText(dst, "3x3 Sharpening Filter", Point(15, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255));
+    std::cout << "3x3 Sharpening Filter" << std::endl;
     imshow( window_name, dst );
     waitKey(0);
 
     //Show original image again
     imshow( window_name, org );
+    std::cout << "Original Image" << std::endl;
     waitKey(0);
 
     //Edge detection
     kernel = (Mat_<uchar>(3,3) << 1, 0, -1, 0, 0, 0, -1, 0, 1);
     dst = convolveWithKernel(src, kernel, false);
     putText(dst, "3x3 Edge Detection Filter (1)", Point(15, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255));
+    std::cout << "3x3 Edge Detection Filter (1)" << std::endl;
     imshow( window_name, dst );
     waitKey(0);
 
     //Show original image again
     imshow( window_name, org );
+    std::cout << "Original Image" << std::endl;
     waitKey(0);
 
     //Edge detection
     kernel = (Mat_<uchar>(3,3) << 0, 1, 0, 1, -4, 1, 0, 1, 0);
     dst = convolveWithKernel(src, kernel, false);
     putText(dst, "3x3 Edge Detection Filter (2)", Point(15, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255));
+    std::cout << "3x3 Edge Detection Filter (2)" << std::endl;
     imshow( window_name, dst );
     waitKey(0);
 
     //Show original image again
     imshow( window_name, org );
+    std::cout << "Original Image" << std::endl;
     waitKey(0);
 
     //Edge detection
     kernel = (Mat_<uchar>(3,3) << -1, -1, -1, -1, 8, -1, -1, -1, -1);
     dst = convolveWithKernel(src, kernel, false);
     putText(dst, "3x3 Edge Detection Filter (3)", Point(15, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255));
+    std::cout << "3x3 Edge Detection Filter (3)" << std::endl;
     imshow( window_name, dst );
     waitKey(0);
 
