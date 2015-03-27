@@ -160,11 +160,11 @@ Mat convolveWithKernel(Mat img, Mat kernel, bool normalize)
     Mat result = Mat::zeros(img.size(), CV_8UC1);
     //    int type = img.type();
 
-    int kernelSize = (kernel.rows-1)/2; //kernel size from center
+    int kernelHalfSize = (kernel.rows-1)/2; //kernel size from center
 
-    for (int r = kernelSize; r<img.rows-kernelSize; r++)
+    for (int r = kernelHalfSize; r<img.rows-kernelHalfSize; r++)
     {
-        for (int c=kernelSize; c<img.cols-kernelSize; c++)
+        for (int c=kernelHalfSize; c<img.cols-kernelHalfSize; c++)
         {
             int sum = 0;
             int normalizationTerm = 0;
@@ -174,7 +174,7 @@ Mat convolveWithKernel(Mat img, Mat kernel, bool normalize)
             {
                 for (int kc=0; kc<kernel.cols; kc++)
                 {
-                    int termA = (int)img.at<uchar>(r - kernelSize + kr, c - kernelSize + kc);
+                    int termA = (int)img.at<uchar>(r - kernelHalfSize + kr, c - kernelHalfSize + kc);
                     int termB = (int)kernel.at<uchar>(kr, kc);
                     sum +=  termA * termB; //mutliply pixel value at (img_r, img_c) with kernel weight at (kr, kc) and add it to sum
                     normalizationTerm += kernel.at<uchar>(kr, kc); //for later use
